@@ -1,0 +1,289 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aviator Predictor v7 | LOADING</title>
+    
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#c00">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Aviator Predictor v7 🚀">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <meta name="msapplication-TileColor" content="#c00">
+    <meta name="msapplication-TileImage" content="icons/icon-192x192.png">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+            box-sizing: border-box;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #fff;
+            color: #000;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        
+        .container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: #fff;
+        }
+        
+        .loading-header {
+            margin-bottom: 20px;
+            text-align: center;
+            position: absolute;
+            top: 30px;
+        }
+        
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 1.8rem;
+            color: #c00;
+            text-shadow: 0 0 5px rgba(200, 0, 0, 0.3);
+            font-weight: 700;
+        }
+        
+        .bookmaker-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .bookmaker-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid #0ff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+            object-fit: cover;
+            margin-bottom: 15px;
+            background-color: #fff;
+        }
+        
+        /* Fallback for broken images */
+        .bookmaker-icon.broken {
+            background: linear-gradient(45deg, #ffcccc, #ff9999);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #c00;
+            font-weight: bold;
+            font-size: 14px;
+            border: 3px solid #c00;
+        }
+        
+        .bookmaker-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000;
+        }
+        
+        .progress-container {
+            width: 80%;
+            max-width: 300px;
+            height: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #c00, #ff3333);
+            transition: width 0.1s;
+        }
+        
+        .loading-text {
+            font-size: 1rem;
+            color: #000;
+            margin-top: 10px;
+            font-weight: 700;
+        }
+        
+        .telegram-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+            padding: 12px 20px;
+            background-color: #0088cc;
+            color: white;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .telegram-container:hover {
+            background-color: #0077b3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .telegram-container:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .telegram-icon {
+            font-size: 1.2rem;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="loading-header">
+            <h1>🚀 Aviator Predictor v7 🚀</h1>
+            <div class="loading-text">⚡️ GET READY ⚡️</div>
+        </div>
+        
+        <div class="bookmaker-display">
+            <img id="bookmakerIcon" class="bookmaker-icon" src="" alt="Bookmaker" onerror="handleImageError(this)">
+            <div class="bookmaker-name" id="bookmakerName"></div>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div class="loading-text" id="statusText">Loading prediction data...</div>
+        
+        <a href="https://t.me/AviatorPredictor_7" class="telegram-container" target="_blank" title="Join Telegram Channel">
+            <i class="fab fa-telegram telegram-icon"></i>
+            Join Channel ➔ @AviatorPredictor_7
+        </a>
+    </div>
+
+    <script>
+        // Image error handling
+        function handleImageError(img) {
+            img.classList.add('broken');
+            const bookmakerName = document.getElementById('bookmakerName').textContent;
+            img.alt = `${bookmakerName} logo not available`;
+            
+            // Create fallback text
+            const fallback = document.createElement('div');
+            fallback.textContent = bookmakerName.substring(0, 4);
+            fallback.style.color = '#c00';
+            fallback.style.fontWeight = 'bold';
+            fallback.style.fontSize = '16px';
+            
+            img.parentNode.insertBefore(fallback, img);
+            img.style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const bookmaker = localStorage.getItem('selectedBookmaker');
+            const bookmakerIcon = document.getElementById('bookmakerIcon');
+            const bookmakerName = document.getElementById('bookmakerName');
+            const statusText = document.getElementById('statusText');
+            
+            // Set bookmaker specific content
+            const bookmakers = {
+                '1win': { name: '1WIN', icon: 'images/1win.png' },
+                '1xbet': { name: '1XBET', icon: 'images/1xbet.png' },
+                'mostbet': { name: 'MOSTBET', icon: 'images/mostbet.png' },
+                'hollywood': { name: 'HOLLYWOOD', icon: 'images/hollywood.png' },
+                'betway': { name: 'BETWAY', icon: 'images/betway.png' },
+                'lottostar': { name: 'LOTTOSTAR', icon: 'images/lottostar.png' },
+                'premierbet': { name: 'PREMIERBET', icon: 'images/premierbet.png' },
+                'bet365': { name: 'BET365', icon: 'images/bet365.png' },
+                'betpawa': { name: 'BETPAWA', icon: 'images/betpawa.png' },
+                'elephantbet': { name: 'ELEPHANT BET', icon: 'images/elephantbet.png' },
+                'sportybet': { name: 'SPORTYBET', icon: 'images/sportybet.png' },
+                'mwos': { name: 'MWOS', icon: 'images/mwos.png' }
+            };
+            
+            if (bookmakers[bookmaker]) {
+                bookmakerIcon.src = bookmakers[bookmaker].icon;
+                bookmakerName.textContent = bookmakers[bookmaker].name;
+                statusText.textContent = `Connecting to ${bookmakers[bookmaker].name} servers...`;
+            } else {
+                // Fallback if no bookmaker selected
+                bookmakerIcon.src = 'images/default.png';
+                bookmakerName.textContent = 'BOOKMAKER';
+                statusText.textContent = 'Loading prediction data...';
+            }
+            
+            // Simulate loading process
+            let progress = 0;
+            const progressBar = document.getElementById('progressBar');
+            const interval = setInterval(function() {
+                progress += 1;
+                progressBar.style.width = progress + '%';
+                
+                // Update status text based on progress
+                if (progress === 25) {
+                    statusText.textContent = 'Analyzing game patterns...';
+                } else if (progress === 50) {
+                    statusText.textContent = 'Calculating predictions...';
+                } else if (progress === 75) {
+                    statusText.textContent = 'Finalizing results...';
+                } else if (progress === 90) {
+                    statusText.textContent = 'Almost ready...';
+                }
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    statusText.textContent = '✅ READY! Redirecting...';
+                    setTimeout(function() {
+                        window.location.href = 'games.html';
+                    }, 500);
+                }
+            }, 50);
+        });
+
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed: ', err));
+            });
+        }
+
+        // Prevent zooming
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('touchmove', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>

@@ -1,0 +1,353 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aviator Predictor v7 | CHOOSE BOOKMAKER</title>
+    
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#c00">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Aviator Predictor v7 🚀">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <meta name="msapplication-TileColor" content="#c00">
+    <meta name="msapplication-TileImage" content="icons/icon-192x192.png">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+            box-sizing: border-box;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #fff;
+            color: #000;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        
+        .container {
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+        }
+        
+        .header {
+            margin-bottom: 10px;
+            padding-top: 10px;
+        }
+        
+        h1 {
+            margin: 0 0 5px 0;
+            font-size: 1.5em;
+            letter-spacing: 2px;
+            color: #c00;
+            text-shadow: 0 0 5px rgba(200, 0, 0, 0.3);
+            font-weight: 700;
+        }
+        
+        h2 {
+            margin: 0 0 15px 0;
+            font-size: 1.15rem;
+            color: #000;
+            font-weight: 700;
+        }
+        
+        .bookmaker-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 90%;
+            max-width: 400px;
+            margin: 0 auto 20px auto;
+        }
+        
+        .bookmaker-option {
+            cursor: pointer;
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 5px;
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .bookmaker-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+        
+        .bookmaker-option:active {
+            transform: scale(0.95);
+        }
+        
+        .bookmaker-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid #c00;
+            box-shadow: 0 0 10px rgba(200, 0, 0, 0.3);
+            object-fit: cover;
+            background-color: #fff;
+            margin-bottom: 8px;
+        }
+        
+        /* Force instant display - no animations */
+        .bookmaker-image[src*="mwos"] {
+            border: 2px solid #c00 !important;
+        }
+        
+        /* Fallback for broken images */
+        .bookmaker-image.broken {
+            background: linear-gradient(45deg, #ffcccc, #ff9999);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #c00;
+            font-weight: bold;
+            font-size: 12px;
+            border: 2px solid #c00;
+        }
+        
+        .bookmaker-title {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #000;
+        }
+        
+        .telegram-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px auto 0 auto;
+            padding: 12px 20px;
+            font-size: 1rem;
+            color: #fff;
+            font-weight: bold;
+            background-color: #0088cc;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 90%;
+            border: 2px solid #0088cc;
+            box-shadow: 0 0 10px rgba(0, 136, 204, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .telegram-button:hover {
+            background-color: #0077b3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 136, 204, 0.5);
+        }
+        
+        .telegram-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(0, 136, 204, 0.5);
+        }
+        
+        .telegram-icon {
+            font-size: 1.2rem;
+            margin-right: 8px;
+        }
+
+        .telegram-link {
+            color: #fff;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 4px;
+        }
+
+        .verification-badge {
+            background-color: #fff;
+            color: #0088cc;
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Aviator Predictor v7 🚀</h1>
+            <h2>🎰 CHOOSE BOOKMAKER 🎰</h2>
+        </div>
+        
+        <div class="bookmaker-grid">
+            <!-- Row 1 -->
+            <div class="bookmaker-option" onclick="selectBookmaker('1win')" title="1Win Bookmaker">
+                <img src="images/1win.png" alt="1WIN" class="bookmaker-image" onerror="handleImageError(this)">
+                <div class="bookmaker-title">𝟏𝐖𝐢𝐧</div>
+            </div>
+            
+            <div class="bookmaker-option" onclick="selectBookmaker('1xbet')" title="1xBet Bookmaker">
+                <img src="images/1xbet.png" alt="1XBET" class="bookmaker-image" onerror="handleImageError(this)">
+                <div class="bookmaker-title">𝟏𝐱𝐛𝐞𝐭</div>
+            </div>
+            
+            <div class="bookmaker-option" onclick="selectBookmaker('mostbet')" title="Mostbet Bookmaker">
+                <img src="images/mostbet.png" alt="MOSTBET" class="bookmaker-image" onerror="handleImageError(this)">
+                <div class="bookmaker-title">𝐌𝐨𝐬𝐭𝐛𝐞𝐭</div>
+            </div>
+            
+            <!-- Row 2 -->
+            <div class="bookmaker-option" onclick="selectBookmaker('hollywood')" title="Hollywood Bookmaker">
+                <img src="images/hollywood.png" alt="HOLLYWOOD" class="bookmaker-image" onerror="handleImageError(this)">
+                <div class="bookmaker-title">𝐇𝐨𝐥𝐥𝐲𝐰𝐨𝐨𝐝</div>
+            </div>
+            
+            <div class="bookmaker-option" onclick="selectBookmaker('betway')" title="Betway Bookmaker">
+                <img src="images/betway.png" alt="BETWAY" class="bookmaker-image" onerror="handleImageError(this)">
+                <div class="bookmaker-title">𝐁𝐞𝐭𝐰𝐚𝐲</div>
+            </div>
+            
+            <div class="bookmaker-option" onclick="selectBookmaker('lottostar')" title="Lottostar Bookmaker">
+                <img src="images/lottostar.png" alt="LOTTOSTAR" class="bookmaker-image" onerror="handleImageError(this)">
+                <div class="bookmaker-title">𝐋𝐨𝐭𝐭𝐨𝐬𝐭𝐚𝐫</div>
+            </div>
+            
+            <!-- Row 3 -->
+            <div class="bookmaker-option" onclick="selectBookmaker('premierbet')" title="Premier Bet Bookmaker">
+                <img src="images/premierbet.png" alt="PREMIERBET" class="bookmaker-image" onerror="handleImageError(this)">
+                <div class="bookmaker-title">𝐏𝐫𝐞𝐦𝐢𝐞𝐫𝐛𝐞𝐭</div>
+            </div>
+            
+            <div class="bookmaker-option" onclick="selectBookmaker('bet365')" title="Bet365 Bookmaker">
+                <img src="images/bet365.png" alt="BET365" class="bookmaker-image" onerror="handleImageError(this)">
+                <div class="bookmaker-title">𝐁𝐞𝐭𝟑𝟔𝟓</div>
+            </div>
+            
+            <div class="bookmaker-option" onclick="selectBookmaker('betpawa')" title="Betpawa Bookmaker">
+                <img src="images/betpawa.png" alt="BETPAWA" class="bookmaker-image" onerror="handleImageError(this)">
+                <div class="bookmaker-title">𝐁𝐞𝐭 𝐏𝐚𝐰𝐚</div>
+            </div>
+            
+            <!-- Row 4 -->
+            <div class="bookmaker-option" onclick="selectBookmaker('elephantbet')" title="Elephant Bet Bookmaker">
+                <img src="images/elephantbet.png" alt="ELEPHANT BET" class="bookmaker-image" onerror="handleImageError(this)">
+                <div class="bookmaker-title">𝐄𝐥𝐞𝐩𝐡𝐚𝐧𝐭𝐛𝐞𝐭</div>
+            </div>
+            
+            <div class="bookmaker-option" onclick="selectBookmaker('sportybet')" title="Sportybet Bookmaker">
+                <img src="images/sportybet.png" alt="SPORTYBET" class="bookmaker-image" onerror="handleImageError(this)">
+                <div class="bookmaker-title">𝐒𝐩𝐨𝐫𝐭𝐲𝐛𝐞𝐭</div>
+            </div>
+            
+            <!-- MWOS with proper title -->
+            <div class="bookmaker-option" onclick="selectBookmaker('mwos')" title="MWOS Bookmaker">
+                <img src="images/mwos.png" alt="MWOS" class="bookmaker-image" onerror="handleImageError(this)">
+                <div class="bookmaker-title">𝐌𝐰𝐨𝐬</div>
+            </div>
+        </div>
+
+        <a href="https://t.me/AviatorAdmin2" class="telegram-button" target="_blank" title="Contact on Telegram">
+            <i class="fab fa-telegram telegram-icon"></i>
+            Telegram ➔ <span class="telegram-link">@AviatorAdmin2<span class="verification-badge">✓</span></span>
+        </a>
+
+    </div>
+
+    <script>
+        function selectBookmaker(bookmaker) {
+            localStorage.setItem('selectedBookmaker', bookmaker);
+            window.location.href = 'loading.html';
+        }
+
+        // Enhanced image error handling
+        function handleImageError(img) {
+            img.classList.add('broken');
+            const bookmakerName = img.alt || 'Bookmaker';
+            
+            // Create fallback with bookmaker name
+            const fallback = document.createElement('div');
+            fallback.style.width = '60px';
+            fallback.style.height = '60px';
+            fallback.style.borderRadius = '50%';
+            fallback.style.border = '2px solid #c00';
+            fallback.style.display = 'flex';
+            fallback.style.alignItems = 'center';
+            fallback.style.justifyContent = 'center';
+            fallback.style.background = 'linear-gradient(45deg, #ffcccc, #ff9999)';
+            fallback.style.color = '#c00';
+            fallback.style.fontSize = '10px';
+            fallback.style.fontWeight = 'bold';
+            fallback.textContent = bookmakerName.substring(0, 4);
+            
+            img.style.display = 'none';
+            img.parentNode.insertBefore(fallback, img);
+        }
+
+        // Preload images for instant display
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = [
+                'images/1win.png',
+                'images/1xbet.png', 
+                'images/mostbet.png',
+                'images/hollywood.png',
+                'images/betway.png',
+                'images/lottostar.png',
+                'images/premierbet.png',
+                'images/bet365.png',
+                'images/betpawa.png',
+                'images/elephantbet.png',
+                'images/sportybet.png',
+                'images/mwos.png'
+            ];
+            
+            // Preload all images
+            images.forEach(src => {
+                const img = new Image();
+                img.src = src;
+            });
+        });
+
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed: ', err));
+            });
+        }
+
+        // Prevent zooming
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('touchmove', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>

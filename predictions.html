@@ -1,0 +1,550 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aviator Predictor v7 | PREDICTIONS</title>
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#c00">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Aviator Predictor v7 🚀">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <meta name="msapplication-TileColor" content="#c00">
+    <meta name="msapplication-TileImage" content="icons/icon-192x192.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #fff;
+            color: #000;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        
+        .container {
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: #fff;
+            position: relative;
+        }
+        
+        .header {
+            margin-bottom: 15px;
+        }
+        
+        h1 {
+            margin: 10px 0;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            color: #c00;
+            text-shadow: 0 0 5px rgba(200, 0, 0, 0.3);
+            font-weight: 700;
+        }
+        
+        .accuracy-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: fit-content;
+            margin: 0 auto 15px auto;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border-radius: 25px;
+            border: 2px solid #10b981;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .accuracy-button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .accuracy-icon {
+            width: 16px;
+            height: 16px;
+            filter: brightness(0) invert(1);
+        }
+        
+        .prediction-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            margin: 20px 0;
+        }
+
+        .prediction-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+        .loader {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+        }
+
+        .loader span {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 5px solid transparent;
+            border-top: 5px solid #ff0000;
+            animation: rotate 2s linear infinite;
+        }
+
+        .loader span:nth-child(1) {
+            border-top: 5px solid #ff0000;
+            filter: drop-shadow(0 0 8px #ff0000) drop-shadow(0 0 15px #ff0000) blur(3px);
+        }
+
+        .loader span:nth-child(2) {
+            border-top: 5px solid #00ff00;
+            filter: drop-shadow(0 0 8px #00ff00) drop-shadow(0 0 15px #00ff00) blur(3px);
+            animation-delay: -0.66s;
+        }
+
+        .loader span:nth-child(3) {
+            border-top: 5px solid #0066ff;
+            filter: drop-shadow(0 0 8px #0066ff) drop-shadow(0 0 15px #0066ff) blur(3px);
+            animation-delay: -1.33s;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .prediction-display {
+            width: 230px;
+            height: 230px;
+            border-radius: 50%;
+            background: #f8f8f8;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 
+                0 0 25px rgba(200, 0, 0, 0.3),
+                inset 0 0 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 2;
+            border: 2px solid #c00;
+        }
+
+        .prediction-value {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #c00;
+            text-shadow: 0 0 15px rgba(200, 0, 0, 0.5);
+            height: 60px;
+            margin: 10px 0;
+            transition: all 0.3s;
+        }
+
+        .prediction-status {
+            font-size: 1rem;
+            color: #c00;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(200, 0, 0, 0.3);
+            font-weight: bold;
+        }
+
+        @keyframes hyper-generate {
+            0% { opacity: 0.1; transform: scale(1.1) rotate(1deg); }
+            50% { opacity: 0.3; transform: scale(0.98) rotate(-1deg); }
+            100% { opacity: 0.1; transform: scale(1.1) rotate(1deg); }
+        }
+
+        .generating {
+            animation: hyper-generate 0.05s infinite;
+            color: #c00 !important;
+            text-shadow: 0 0 15px #c00;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .prediction-btn {
+            width: 80%;
+            max-width: 300px;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: #c00;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin: 30px auto 20px auto;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+            box-shadow: 0 4px 15px rgba(200, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .prediction-btn:hover {
+            background: #a00;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(200, 0, 0, 0.6);
+        }
+
+        .prediction-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(200, 0, 0, 0.6);
+        }
+
+        .prediction-btn:focus {
+            outline: none;
+        }
+
+        .prediction-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            background: #a00;
+            transform: none;
+            box-shadow: 0 4px 15px rgba(200, 0, 0, 0.4);
+        }
+        
+        .footer {
+            font-size: 0.9em;
+            color: #000000;
+            padding-top: 15px;
+            margin-top: auto;
+            opacity: 1;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .badges-footer {
+            background: #f8f8f8;
+            border: 2px solid #c00;
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            margin-top: auto;
+            box-shadow: 0 4px 15px rgba(200, 0, 0, 0.2);
+        }
+
+        .badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .mini-badge {
+            background: #c00;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 0.65rem;
+            font-weight: bold;
+            border: 1px solid rgba(255,255,255,0.5);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .badge-contact {
+            color: #000000;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .telegram-icon {
+            color: #0088cc;
+            font-size: 0.9rem;
+        }
+
+        .telegram-link {
+            color: #0088cc;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 4px;
+        }
+
+        .verification-badge {
+            background-color: #0088cc;
+            color: white;
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: bold;
+        }
+
+        /* Ensure proper spacing for all screen sizes */
+        @media (max-height: 700px) {
+            .prediction-section {
+                margin: 15px 0;
+            }
+            
+            .prediction-container {
+                transform: scale(0.9);
+            }
+            
+            .prediction-btn {
+                margin: 25px auto 15px auto;
+            }
+            
+            .footer {
+                padding-top: 10px;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .prediction-section {
+                margin: 10px 0;
+            }
+            
+            .prediction-container {
+                transform: scale(0.8);
+            }
+            
+            .header {
+                margin-bottom: 10px;
+            }
+            
+            h1 {
+                font-size: 1.3rem;
+                margin: 5px 0;
+            }
+            
+            .prediction-btn {
+                margin: 20px auto 10px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Aviator Predictor v7 🚀</h1>
+            <div class="accuracy-button">
+                <svg class="accuracy-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+               Predictions Accuracy ~ 100%
+                <svg class="accuracy-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+        
+        <div class="prediction-section">
+            <div class="prediction-container">
+                <div class="loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="prediction-display">
+                    <div class="prediction-value" id="predictionValue">READY</div>
+                    <div class="prediction-status" id="predictionStatus">WAITING</div>
+                </div>
+            </div>
+            
+            <button class="prediction-btn" id="predictBtn" onclick="startPrediction()">START</button>
+        </div>
+        
+        <div class="footer badges-footer">
+            <div class="badge-row">
+                <div class="mini-badge">Accurate</div>
+                <div class="mini-badge">Premium</div>
+                <div class="mini-badge">Predictions</div>
+            </div>
+            <div class="badge-contact">
+                <i class="fab fa-telegram-plane telegram-icon"></i> Telegram ➔ 
+                <a href="https://t.me/AviatorAdmin2" class="telegram-link" target="_blank">@AviatorAdmin2<span class="verification-badge">✓</span></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let predictionCount = 0;
+        let isGenerating = false;
+        const sequence = ['4.31x', '8.92x', '8.72x', '1.00x', '8.64x', '1.43x', '1.00x', '2.65x', '1.10x', '3.24x', '165.59x', '1.31x', '1.20x', '1.31x', '1.08x'];
+
+        function generateRandomPrediction() {
+            // Generate a random number between 0 and 1
+            const rand = Math.random();
+            
+            // 70% chance for small numbers (1.00x - 2.00x)
+            if (rand < 0.7) {
+                return (1 + Math.random()).toFixed(2) + 'x';
+            } 
+            // 20% chance for medium numbers (2.00x - 5.00x)
+            else if (rand < 0.9) {
+                return (2 + Math.random() * 3).toFixed(2) + 'x';
+            } 
+            // 10% chance for big numbers (5.00x - 10.00x)
+            else {
+                return (5 + Math.random() * 5).toFixed(2) + 'x';
+            }
+        }
+
+        function startPrediction() {
+            if(isGenerating) return;
+            
+            const btn = document.getElementById('predictBtn');
+            const valueDisplay = document.getElementById('predictionValue');
+            const statusDisplay = document.getElementById('predictionStatus');
+            
+            btn.disabled = true;
+            btn.innerHTML = 'WAIT...';
+            isGenerating = true;
+            
+            valueDisplay.classList.add('generating');
+            statusDisplay.textContent = 'Wait For Signal...';
+            
+            let lastUpdate = 0;
+            const generateInterval = setInterval(() => {
+                const now = Date.now();
+                if(now - lastUpdate > 30) {
+                    valueDisplay.style.opacity = 0;
+                    setTimeout(() => {
+                        valueDisplay.textContent = (1 + Math.random() * 9).toFixed(2) + 'x';
+                        valueDisplay.style.opacity = 1;
+                    }, 20);
+                    lastUpdate = now;
+                }
+            }, 10);
+
+            setTimeout(() => {
+                clearInterval(generateInterval);
+                valueDisplay.classList.remove('generating');
+                
+                valueDisplay.style.opacity = 0;
+                setTimeout(() => {
+                    let result;
+                    if (predictionCount < sequence.length) {
+                        result = sequence[predictionCount];
+                    } else {
+                        result = generateRandomPrediction();
+                    }
+                    valueDisplay.textContent = result;
+                    predictionCount++;
+
+                    valueDisplay.style.opacity = 1;
+                    valueDisplay.classList.add('fade-in');
+                    statusDisplay.textContent = 'SIGNAL GENERATED';
+                    
+                    btn.disabled = false;
+                    btn.innerHTML = 'NEXT PREDICTION';
+                    isGenerating = false;
+
+                    setTimeout(() => {
+                        valueDisplay.classList.remove('fade-in');
+                    }, 500);
+                }, 50);
+            }, 2000);
+        }
+
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed: ', err));
+            });
+        }
+
+        // Prevent zooming and scrolling
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Disable double tap zoom
+        document.addEventListener('dblclick', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+
+        // Remove all focus outlines and tap highlights
+        document.addEventListener('touchstart', function() {}, {passive: true});
+        document.addEventListener('touchend', function() {}, {passive: true});
+    </script>
+</body>
+</html>

@@ -1,0 +1,983 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aviator Predictor v7 | AUTHENTICATION</title>
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#c00">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Aviator Predictor v7 🚀">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <meta name="msapplication-TileColor" content="#c00">
+    <meta name="msapplication-TileImage" content="icons/icon-192x192.png">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+            box-sizing: border-box;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #fff;
+            color: #000;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        
+        .container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 20px;
+            padding-top: 40px;
+            background: #fff;
+            overflow-y: auto; /* Allow scrolling only when needed */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        }
+        
+        h1 {
+            margin: 10px 0 5px 0;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            color: #c00;
+            text-shadow: 0 0 5px rgba(200, 0, 0, 0.3);
+            font-weight: 700;
+        }
+        
+        .logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #c00;
+            margin: 10px auto 20px auto;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(200, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        /* Fallback for broken logo */
+        .logo.broken {
+            background: linear-gradient(45deg, #ffcccc, #ff9999);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #c00;
+            font-weight: bold;
+            font-size: 14px;
+            border: 3px solid #c00;
+        }
+        
+        .login-box {
+            width: 90%;
+            max-width: 350px;
+            background: #f8f8f8;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(200, 0, 0, 0.2);
+            border: 2px solid #c00;
+            margin-top: 20px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #c00;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: none;
+            background: #fff;
+            color: #000;
+            font-family: 'Orbitron', sans-serif;
+            border: 2px solid #c00;
+        }
+        
+        .input-group select option {
+            background-color: #fff;
+            padding: 5px;
+            color: #000;
+        }
+        
+        .activate-btn {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            background: #c00;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 15px;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+        }
+        
+        .activate-btn:focus {
+            outline: none;
+        }
+        
+        .activate-btn-text {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                        0 0 20px rgba(255, 255, 255, 0.6),
+                        0 0 30px rgba(255, 255, 255, 0.4);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px rgba(255, 255, 255, 0.8),
+                            0 0 10px rgba(255, 255, 255, 0.6),
+                            0 0 15px rgba(255, 255, 255, 0.4);
+            }
+            to {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 1),
+                            0 0 20px rgba(255, 255, 255, 0.8),
+                            0 0 30px rgba(255, 255, 255, 0.6);
+            }
+        }
+        
+        .telegram-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 20px;
+            font-size: 0.8rem;
+            color: #fff;
+            font-weight: bold;
+            background-color: #0088cc;
+            border-radius: 30px;
+            width: 100%;
+            border: 2px solid #0088cc;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 15px;
+            max-width: 350px;
+            -webkit-tap-highlight-color: transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .telegram-button:hover {
+            background-color: #0077b3;
+            border-color: #0077b3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 136, 204, 0.4);
+        }
+        
+        .telegram-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 136, 204, 0.4);
+        }
+        
+        .telegram-icon {
+            font-size: 1.2rem;
+            margin-right: 8px;
+        }
+        
+        .price-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px auto;
+            padding: 12px 20px;
+            font-size: 0.9rem;
+            color: #fff;
+            font-weight: bold;
+            background: linear-gradient(90deg, #c00, #ff3333);
+            border-radius: 30px;
+            width: 100%;
+            max-width: 350px;
+            border: 2px solid #c00;
+            box-shadow: 0 0 15px rgba(200, 0, 0, 0.3);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .price-button:hover {
+            background: linear-gradient(90deg, #a00, #e00);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(200, 0, 0, 0.5);
+        }
+        
+        .price-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(200, 0, 0, 0.5);
+        }
+        
+        .price-icon {
+            font-size: 1.2rem;
+            margin-right: 8px;
+        }
+        
+        .disclaimer {
+            margin: 20px auto 0 auto;
+            padding: 15px;
+            background-color: #f8f8f8;
+            border-radius: 10px;
+            max-width: 350px;
+            width: 90%;
+            border: 2px solid #c00;
+            box-shadow: 0 0 10px rgba(200, 0, 0, 0.2);
+            text-align: center;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #000;
+        }
+        
+        .disclaimer strong {
+            color: #c00;
+        }
+        
+        .telegram-link {
+            color: #0088cc;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .verification-badge {
+            background-color: #0088cc;
+            color: white;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .important-title {
+            display: block;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #c00;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        
+        /* Telegram Button Styles */
+        .telegram-float-button {
+            position: fixed;
+            bottom: 30px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #0088cc;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 136, 204, 0.5);
+            cursor: pointer;
+            z-index: 999;
+            transition: all 0.3s ease;
+            border: 2px solid #fff;
+            animation: pulse 2s infinite;
+            text-decoration: none;
+        }
+
+        .telegram-float-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(0, 136, 204, 0.7);
+        }
+
+        .telegram-float-button:active {
+            transform: scale(0.95);
+        }
+
+        .telegram-float-icon {
+            font-size: 28px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .telegram-float-label {
+            position: absolute;
+            top: -35px;
+            right: 0;
+            background-color: #0088cc;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            font-weight: bold;
+        }
+
+        .telegram-float-button:hover .telegram-float-label {
+            opacity: 1;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 136, 204, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(0, 136, 204, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 136, 204, 0);
+            }
+        }
+
+        /* Footer Styles */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px;
+            background-color: #f8f8f8;
+            border-top: 2px solid #c00;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 998;
+        }
+
+        .footer-text {
+            font-size: 0.8rem;
+            color: black;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .footer-telegram {
+            display: flex;
+            align-items: center;
+            background-color: #0088cc;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .footer-telegram:hover {
+            background-color: #0077b3;
+            transform: translateY(-2px);
+        }
+
+        .footer-telegram-icon {
+            margin-right: 5px;
+            font-size: 1rem;
+        }
+
+        /* New Modal Styles - Different Design */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+            overflow: hidden; /* Prevent scrolling on the overlay itself */
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #fff 0%, #f8f8f8 100%);
+            border-radius: 25px;
+            width: 90%;
+            max-width: 380px;
+            border: 4px solid #c00;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(200, 0, 0, 0.4);
+            transform: scale(0.9);
+            animation: modalAppear 0.4s forwards;
+        }
+
+        @keyframes modalAppear {
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(90deg, #c00, #ff3333);
+            color: white;
+            padding: 20px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .modal-header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+        }
+
+        .modal-body {
+            padding: 25px 20px;
+            color: #000;
+            text-align: center;
+        }
+
+        .modal-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            color: #c00;
+            text-shadow: 0 0 15px rgba(200, 0, 0, 0.3);
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #c00;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .modal-message {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .modal-telegram-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 20px;
+            font-size: 0.9rem;
+            color: #fff;
+            font-weight: bold;
+            background: linear-gradient(135deg, #0088cc, #006699);
+            border-radius: 30px;
+            width: 100%;
+            border: 2px solid #0088cc;
+            cursor: pointer;
+            text-decoration: none;
+            margin: 20px 0 10px;
+            -webkit-tap-highlight-color: transparent;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.4);
+        }
+        
+        .modal-telegram-btn:hover {
+            background: linear-gradient(135deg, #0077b3, #005580);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 136, 204, 0.6);
+        }
+        
+        .modal-telegram-btn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0, 136, 204, 0.6);
+        }
+
+        .modal-telegram-icon {
+            font-size: 1.3rem;
+            margin-right: 10px;
+        }
+
+        .close-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            background: linear-gradient(90deg, #c00, #ff3333);
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            border-top: 2px solid #c00;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+        
+        .close-btn:hover {
+            background: linear-gradient(90deg, #a00, #e00);
+        }
+
+        .close-btn:focus {
+            outline: none;
+        }
+
+        /* Price Overlay Styles */
+        .price-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+            overflow: hidden; /* Prevent scrolling on the overlay itself */
+        }
+
+        .price-card {
+            background: linear-gradient(135deg, #fff 0%, #f8f8f8 100%);
+            border-radius: 25px;
+            width: 90%;
+            max-width: 380px;
+            border: 4px solid #c00;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(200, 0, 0, 0.4);
+            transform: scale(0.9);
+            animation: modalAppear 0.4s forwards;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price-header {
+            background: linear-gradient(90deg, #c00, #ff3333);
+            color: white;
+            padding: 20px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .price-header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+        }
+
+        .price-body {
+            padding: 15px 10px;
+            max-height: 55vh;
+            overflow-y: auto; /* Enable vertical scrolling */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            flex: 1;
+        }
+
+        .price-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 6px;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: rgba(200, 0, 0, 0.05);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            font-size: 0.8rem;
+        }
+
+        .price-item:hover {
+            background: rgba(200, 0, 0, 0.1);
+            border-left: 3px solid #c00;
+            transform: translateX(3px);
+        }
+
+        .country {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            color: #000;
+        }
+
+        .flag {
+            font-size: 1rem;
+        }
+
+        .price {
+            color: #c00;
+            font-weight: 700;
+        }
+
+        .price-footer {
+            padding: 15px;
+            border-top: 2px solid rgba(200, 0, 0, 0.2);
+        }
+
+        .price-telegram-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 20px;
+            font-size: 0.9rem;
+            color: #fff;
+            font-weight: bold;
+            background: linear-gradient(135deg, #0088cc, #006699);
+            border-radius: 30px;
+            width: 100%;
+            border: 2px solid #0088cc;
+            cursor: pointer;
+            text-decoration: none;
+            margin-bottom: 10px;
+            -webkit-tap-highlight-color: transparent;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.4);
+        }
+        
+        .price-telegram-btn:hover {
+            background: linear-gradient(135deg, #0077b3, #005580);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 136, 204, 0.6);
+        }
+        
+        .price-telegram-btn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0, 136, 204, 0.6);
+        }
+
+        .price-telegram-icon {
+            font-size: 1.3rem;
+            margin-right: 10px;
+        }
+        
+        /* Prevent body scrolling when modal is open */
+        body.modal-open {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Aviator Predictor v7 🚀</h1>
+        
+        <div class="logo">
+            <img src="logo.png" alt="Predictor Pro Logo" onerror="handleImageError(this)">
+        </div>
+        
+        <div class="login-box">
+            <div class="input-group">
+                <label for="password">🔐 ACTIVATION KEY</label>
+                <input type="password" id="password" placeholder="Enter Your Activation Key">
+            </div>
+            
+            <button class="activate-btn" onclick="authenticate()">
+                <span class="activate-btn-text">ACTIVATE APP</span>
+            </button>
+        </div>
+        
+        <div class="disclaimer">
+            <span class="important-title">⚠️ IMPORTANT NOTICE ⚠️</span>
+            I do not use WhatsApp. The only way to buy the activation key is to contact me on this Telegram account 👉 <a href="https://t.me/AviatorAdmin2" class="telegram-link" target="_blank">@AviatorAdmin2<span class="verification-badge">✓</span></a>
+        </div>
+        
+        <button class="price-button" onclick="showPriceList()">
+            <i class="fas fa-tags price-icon"></i>
+            VIEW ACTIVATION KEY PRICE
+        </button>
+    </div>
+
+    <!-- Telegram Floating Button -->
+    <a href="https://t.me/AviatorPredictor_7" class="telegram-float-button" target="_blank">
+        <div class="telegram-float-label">Join Telegram</div>
+        <i class="fab fa-telegram telegram-float-icon"></i>
+    </a>
+
+    <!-- Footer with Telegram Link -->
+    <div class="footer">
+        <span class="footer-text">Join our community:</span>
+        <a href="https://t.me/AviatorPredictor_7" class="footer-telegram" target="_blank">
+            <i class="fab fa-telegram footer-telegram-icon"></i>
+            Telegram Channel
+        </a>
+    </div>
+
+    <!-- Invalid Key Modal Popup -->
+    <div class="modal-overlay" id="paymentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                🔐 ACCESS DENIED
+            </div>
+            <div class="modal-body">
+                <div class="modal-icon">❌</div>
+                <div class="modal-title">Invalid Activation Key</div>
+                <div class="modal-message">
+                    The key you entered is incorrect. Please contact the admin to purchase a valid activation key.
+                </div>
+
+                <a href="https://t.me/m/F2Tzunz2NTZk" class="modal-telegram-btn" target="_blank">
+                    <i class="fab fa-telegram modal-telegram-icon"></i>
+                    CONTACT ADMIN FOR KEY
+                </a>
+            </div>
+            <button class="close-btn" onclick="closeModal()">
+                <i class="fas fa-times"></i> CLOSE
+            </button>
+        </div>
+    </div>
+
+    <!-- Price List Modal -->
+    <div class="price-overlay" id="priceOverlay">
+        <div class="price-card">
+            <div class="price-header">
+                💰 ACTIVATION KEY PRICES
+            </div>
+            <div class="price-body">
+                <div class="price-list">
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇮🇳</span> India</div>
+                        <div class="price">1,500 INR</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇧🇷</span> Brazil</div>
+                        <div class="price">100 BRL</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇹🇷</span> Turkey</div>
+                        <div class="price">600 TRY</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇬🇭</span> Ghana</div>
+                        <div class="price">300 GHS</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇱🇸</span> Lesotho</div>
+                        <div class="price">300 LSL</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇳🇵</span> Nepal</div>
+                        <div class="price">2,500 NPR</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇪🇺</span> European</div>
+                        <div class="price">15 EUR</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇰🇪</span> Kenya</div>
+                        <div class="price">2,500 KES</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇿🇲</span> Zambia</div>
+                        <div class="price">600 ZMW</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇧🇼</span> Botswana</div>
+                        <div class="price">300 BWP</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇱🇰</span> Sri Lanka</div>
+                        <div class="price">5,500 LKR</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇳🇬</span> Nigeria</div>
+                        <div class="price">28,000 NGN</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇵🇰</span> Pakistan</div>
+                        <div class="price">5,000 PKR</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇷🇼</span> Rwanda</div>
+                        <div class="price">25,000 RWF</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇺🇬</span> Uganda</div>
+                        <div class="price">65,000 UGX</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇪🇹</span> Ethiopia</div>
+                        <div class="price">3,000 ETB</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇹🇿</span> Tanzania</div>
+                        <div class="price">50,000 TZS</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇿🇦</span> South Africa</div>
+                        <div class="price">300 ZAR</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇵🇭</span> Philippines</div>
+                        <div class="price">1,200 PHP</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇪🇬</span> Egypt</div>
+                        <div class="price">800 EGP</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇧🇩</span> Bangladesh</div>
+                        <div class="price">2,300 BDT</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇲🇿</span> Mozambique</div>
+                        <div class="price">1,200 MZN</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🇨🇩</span> Congo DRC</div>
+                        <div class="price">50,000 CDF</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🌍</span> West Africa</div>
+                        <div class="price">13,000 XOF</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🌍</span> Central Africa</div>
+                        <div class="price">13,000 XAF</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="country"><span class="flag">🌍</span> Other Countries</div>
+                        <div class="price">15 USD</div>
+                    </div>
+                </div>
+            </div>
+            <div class="price-footer">
+                <a href="https://t.me/AviatorAdmin2" class="price-telegram-btn" target="_blank">
+                    <i class="fab fa-telegram price-telegram-icon"></i>
+                    BUY ACTIVATION KEY
+                </a>
+                <button class="close-btn" onclick="closePriceList()">
+                    <i class="fas fa-times"></i> CLOSE
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Image error handling
+        function handleImageError(img) {
+            img.classList.add('broken');
+            const fallbackText = document.createElement('div');
+            fallbackText.textContent = 'APv7';
+            fallbackText.style.color = '#c00';
+            fallbackText.style.fontWeight = 'bold';
+            fallbackText.style.fontSize = '16px';
+            
+            img.parentNode.insertBefore(fallbackText, img);
+            img.style.display = 'none';
+        }
+
+        function authenticate() {
+            const accessCode = document.getElementById('password').value;
+            const modal = document.getElementById('paymentModal');
+            
+            const realPassword = String.fromCharCode(
+                81, 88, 74, 72, 87, 75, 78, 66, 86, 71, 82, 80, 90, 83, 84
+            );
+            
+            if (accessCode === realPassword) {
+                window.location.href = 'predictions.html';
+            } else {
+                // Show modal instead of error message
+                modal.style.display = 'flex';
+                document.body.classList.add('modal-open');
+            }
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('paymentModal');
+            modal.style.display = 'none';
+            document.body.classList.remove('modal-open');
+        }
+        
+        function showPriceList() {
+            document.getElementById('priceOverlay').style.display = 'flex';
+            document.body.classList.add('modal-open');
+        }
+        
+        function closePriceList() {
+            document.getElementById('priceOverlay').style.display = 'none';
+            document.body.classList.remove('modal-open');
+        }
+
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed: ', err));
+            });
+        }
+        
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('paymentModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        document.getElementById('priceOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePriceList();
+            }
+        });
+
+        // Remove all focus outlines and tap highlights
+        document.addEventListener('touchstart', function() {}, {passive: true});
+        document.addEventListener('touchend', function() {}, {passive: true});
+    </script>
+</body>
+</html>
